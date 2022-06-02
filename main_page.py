@@ -9,11 +9,11 @@ APP_TITLE = "Realtime PCR Calculator"
 # Set the configs
 st.set_page_config(
     page_title=APP_TITLE,
+    page_icon=Image.open(r'./cache/R.ico'),
     layout="wide",
     initial_sidebar_state="auto",
 )
-# icon = Image.open(r'./xxxx.png')
-icon = ''
+icon = Image.open(r'./cache/Logo.svg')
 
 def general_main(icon):
     st.markdown(""" <style>
@@ -21,7 +21,7 @@ def general_main(icon):
     footer {visibility: hidden;}
     </style> """, unsafe_allow_html=True)
     st.title('qPCR Result Calculation')
-    # st.sidebar.image(icon, use_column_width=True)
+    st.sidebar.image(icon, use_column_width=True)
     st.sidebar.markdown('''[![ShuXingYu94 - real-timer](https://img.shields.io/static/v1?label=ShuXingYu94&message=real-timer&color=green&logo=github)](https://github.com/ShuXingYu94/real-timer)
         [![GitHub tag](https://img.shields.io/github/tag/ShuXingYu94/real-timer?include_prereleases=&sort=semver&color=green)](https://github.com/ShuXingYu94/real-timer/releases/)''')
     st.info('Please input file on the left.')
