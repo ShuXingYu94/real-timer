@@ -13,7 +13,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="auto",
 )
-icon = Image.open(r'./cache/logo/Logo.svg')
+icon = Image.open(r'./cache/logo/Logo.png')
 
 def general_main(icon):
     st.markdown(""" <style>
