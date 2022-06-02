@@ -54,14 +54,14 @@ def standard_curve():
 
         slope = linreg.coef_
         intercept = linreg.intercept_
-        Rsqr = linreg.score(x, y)
+        rsqr = linreg.score(x, y)
         plt.title('qPCR Standard Curve')
         plt.xlabel('Log DNA copies/unit')
         plt.ylabel('Cycle Threshold')
         if show_calculation_state:
             plt.text(x.max() * 3 / 4, y.min() + (y.max() - y.min()) * 2.5 / 4,
                      s='Slope = {} \n\nIntercept = {} \n\nR$^2$ = {}'.format(round(slope[0], 4), round(intercept, 4),
-                                                                             round(Rsqr, 4)))
+                                                                             round(rsqr, 4)))
 
         col3, col4 = st.columns([1, 1])
         col3.subheader("Figure to Output")
@@ -69,7 +69,7 @@ def standard_curve():
         col4.subheader('Calculation Result:')
         col4.markdown(' > **Slope = {}** \n\n > **Intercept = {}** \n\n > **R$^2$ = {}**'.format(round(slope[0], 4),
                                                                                                  round(intercept, 4),
-                                                                                                 round(Rsqr, 4)),
+                                                                                                 round(rsqr, 4)),
                       unsafe_allow_html=True)
 
         fn = 'standard_curve.{}'.format(output_format)
