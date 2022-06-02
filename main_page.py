@@ -22,8 +22,8 @@ def general_main(icon):
     </style> """, unsafe_allow_html=True)
     st.title('qPCR Result Calculation')
     # st.sidebar.image(icon, use_column_width=True)
-    st.sidebar.markdown('''[![ShuXingYu94 - Primer-picker](https://img.shields.io/static/v1?label=ShuXingYu94&message=Primer-picker&color=green&logo=github)](https://github.com/ShuXingYu94/Primer-picker "Go to GitHub repo")
-        [![GitHub tag](https://img.shields.io/github/tag/ShuXingYu94/Primer-picker?include_prereleases=&sort=semver&color=green)](https://github.com/ShuXingYu94/Primer-picker/releases/)''')
+    st.sidebar.markdown('''[![ShuXingYu94 - real-timer](https://img.shields.io/static/v1?label=ShuXingYu94&message=real-timer&color=green&logo=github)](https://github.com/ShuXingYu94/real-timer)
+        [![GitHub tag](https://img.shields.io/github/tag/ShuXingYu94/real-timer?include_prereleases=&sort=semver&color=green)](https://github.com/ShuXingYu94/real-timer/releases/)''')
     st.info('Please input file on the left.')
 
 # Main function
