@@ -6,3 +6,4 @@ plotly~=5.8.0
 sklearn~=0.0
 scikit-learn~=1.1.1
 matplotlib~=3.5.2
+kaleido~=0.2.1
