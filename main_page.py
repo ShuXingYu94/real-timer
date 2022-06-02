@@ -9,11 +9,11 @@ APP_TITLE = "Realtime PCR Calculator"
 # Set the configs
 st.set_page_config(
     page_title=APP_TITLE,
-    page_icon=Image.open(r'./cache/R.ico'),
+    page_icon=Image.open(r'./cache/logo/R.ico'),
     layout="wide",
     initial_sidebar_state="auto",
 )
-icon = Image.open(r'./cache/Logo.svg')
+icon = Image.open(r'./cache/logo/Logo.svg')
 
 def general_main(icon):
     st.markdown(""" <style>
