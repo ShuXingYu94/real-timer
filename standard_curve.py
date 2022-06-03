@@ -38,50 +38,48 @@ def standard_curve():
         show_calculation_state = st.checkbox('Show Calculation Result in Figure')
         st.markdown('##### Available Format:')
         output_format = st.radio('SVG Format Recommended', ('svg', 'jpg', 'png', 'pdf'))
-        calculate_state = st.button(label='Draw Standard Curve Figure')
 
-    if calculate_state:
-        data = grid
-        x = data['log/unit']
-        y = data['Ct']
+    data = grid
+    x = data['log/unit']
+    y = data['Ct']
 
-        linreg = LinearRegression()
-        x = x.values.reshape(-1, 1)
+    linreg = LinearRegression()
+    x = x.values.reshape(-1, 1)
 
-        fig = plt.figure(figsize=(8, 5))
+    fig = plt.figure(figsize=(8, 5))
 
-        linreg.fit(x, y)
-        y_predict = linreg.predict(x)
+    linreg.fit(x, y)
+    y_predict = linreg.predict(x)
 
-        plt.scatter(x, y, color='black')
-        plt.plot(x, y_predict, color='black')
+    plt.scatter(x, y, color='black')
+    plt.plot(x, y_predict, color='black')
 
-        slope = linreg.coef_
-        intercept = linreg.intercept_
-        rsqr = linreg.score(x, y)
-        plt.title('qPCR Standard Curve')
-        plt.xlabel('Log DNA copies/unit')
-        plt.ylabel('Cycle Threshold')
-        if show_calculation_state:
-            plt.text(x.max() * 3 / 4, y.min() + (y.max() - y.min()) * 2.5 / 4,
-                     s='Slope = {} \n\nIntercept = {} \n\nR$^2$ = {}'.format(round(slope[0], 4), round(intercept, 4),
-                                                                             round(rsqr, 4)))
+    slope = linreg.coef_
+    intercept = linreg.intercept_
+    rsqr = linreg.score(x, y)
+    plt.title('qPCR Standard Curve')
+    plt.xlabel('Log DNA copies/unit')
+    plt.ylabel('Cycle Threshold')
+    if show_calculation_state:
+        plt.text(x.max() * 3 / 4, y.min() + (y.max() - y.min()) * 2.5 / 4,
+                 s='Slope = {} \n\nIntercept = {} \n\nR$^2$ = {}'.format(round(slope[0], 4), round(intercept, 4),
+                                                                         round(rsqr, 4)))
 
-        col3, col4 = st.columns([1, 1])
-        col3.subheader("Figure to Output")
-        col3.pyplot(fig)
-        col4.subheader('Calculation Result:')
-        col4.markdown(' > **Slope = {}** \n\n > **Intercept = {}** \n\n > **R$^2$ = {}**'.format(round(slope[0], 4),
-                                                                                                 round(intercept, 4),
-                                                                                                 round(rsqr, 4)),
-                      unsafe_allow_html=True)
+    col3, col4 = st.columns([1, 1])
+    col3.subheader("Figure to Output")
+    col3.pyplot(fig)
+    col4.subheader('Calculation Result:')
+    col4.markdown(' > **Slope = {}** \n\n > **Intercept = {}** \n\n > **R$^2$ = {}**'.format(round(slope[0], 4),
+                                                                                             round(intercept, 4),
+                                                                                             round(rsqr, 4)),
+                  unsafe_allow_html=True)
 
-        fn = 'standard_curve.{}'.format(output_format)
-        img = BytesIO()
-        plt.savefig(img, format=output_format)
+    fn = 'standard_curve.{}'.format(output_format)
+    img = BytesIO()
+    plt.savefig(img, format=output_format)
 
-        btn = col4.download_button(
-            label="Download image",
-            data=img,
-            file_name=fn
-        )
+    btn = col4.download_button(
+        label="Download image",
+        data=img,
+        file_name=fn
+    )
