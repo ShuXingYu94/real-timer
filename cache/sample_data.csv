@@ -1,13 +1,13 @@
-Ind,Target,Cultivar,Treatment,Expression,Expression SD,Expression SEM
-Gene-1_0D_Cultivar-1,Gene-1,Cultivar-1,0D,1.51958,0.28121,0.16236
-Gene-1_0D_Cultivar-2,Gene-1,Cultivar-2,0D,0.6431,0.05991,0.03459
-Gene-1_1D_Cultivar-1,Gene-1,Cultivar-1,1D,0.72786,0.06851,0.03955
-Gene-1_1D_Cultivar-2,Gene-1,Cultivar-2,1D,0.82254,0.12287,0.07094
-Gene-1_3D_Cultivar-1,Gene-1,Cultivar-1,3D,1.11639,0.11869,0.06853
-Gene-1_3D_Cultivar-2,Gene-1,Cultivar-2,3D,0.66472,0.12274,0.07087
-Gene-2_0D_Cultivar-1,Gene-2,Cultivar-1,0D,0.68715,0.14405,0.08317
-Gene-2_0D_Cultivar-2,Gene-2,Cultivar-2,0D,2.98682,0.35232,0.20341
-Gene-2_1D_Cultivar-1,Gene-2,Cultivar-1,1D,1.26107,0.15377,0.08878
-Gene-2_1D_Cultivar-2,Gene-2,Cultivar-2,1D,1.391,0.07404,0.04275
-Gene-2_3D_Cultivar-1,Gene-2,Cultivar-1,3D,0.31849,0.05326,0.03075
-Gene-2_3D_Cultivar-2,Gene-2,Cultivar-2,3D,0.35138,0.13475,0.0778
+Target,Cultivar,Treatment,Expression,Expression SD,Expression SEM
+Gene-1,Cultivar-1,0D,1.51958,0.28121,0.16236
+Gene-1,Cultivar-2,0D,0.6431,0.05991,0.03459
+Gene-1,Cultivar-1,1D,0.72786,0.06851,0.03955
+Gene-1,Cultivar-2,1D,0.82254,0.12287,0.07094
+Gene-1,Cultivar-1,3D,1.11639,0.11869,0.06853
+Gene-1,Cultivar-2,3D,0.66472,0.12274,0.07087
+Gene-2,Cultivar-1,0D,0.68715,0.14405,0.08317
+Gene-2,Cultivar-2,0D,2.98682,0.35232,0.20341
+Gene-2,Cultivar-1,1D,1.26107,0.15377,0.08878
+Gene-2,Cultivar-2,1D,1.391,0.07404,0.04275
+Gene-2,Cultivar-1,3D,0.31849,0.05326,0.03075
+Gene-2,Cultivar-2,3D,0.35138,0.13475,0.0778

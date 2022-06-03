@@ -3,31 +3,34 @@ import streamlit as st
 from sklearn.linear_model import LinearRegression
 from matplotlib import pyplot as plt
 from io import BytesIO
+from st_aggrid import AgGrid
 
 
 @st.cache
 def default_standard_curve_df():
     df = pd.DataFrame(data={'DNA copies/unit': [100000, 10000, 1000, 100, 10], 'log/unit': [5, 4, 3, 2, 1],
-                            'Ct': [12, 14, 16, 18, 20]})
+                            'Ct': [12.05, 14.15, 17.91, 21.68, 24.87]})
     return df
 
 
 def standard_curve():
     df = default_standard_curve_df()
     st.sidebar.markdown('## Fetch default format file')
-    st.sidebar.download_button('Download Sample file', df.to_csv(index=False).encode('utf-8'), 'standard_curve_sample.csv')
+    st.sidebar.download_button('Download Sample file', df.to_csv(index=False).encode('utf-8'),
+                               'standard_curve_sample.csv')
     st.sidebar.markdown('## Input formatted file')
     file = st.sidebar.file_uploader(label='Only csv file is available:', type='csv', accept_multiple_files=False)
 
     col1, col2 = st.columns([1, 1])
     with col1:
+        st.markdown('### Input Data: \n > Press the "Draw" button to get result.')
         if not file:
-            st.markdown('### Sample Data: \n > Press the "Draw" button to get sample result.')
             data = df
         else:
-            st.markdown('### Input Data: \n > Press the "Draw" button to get result.')
             data = pd.read_csv(file)
-        st.dataframe(data)
+        grid_return = AgGrid(data, editable=True, fit_columns_on_grid_load=True, height=250,
+                             GridUpdateMode='VALUE_CHANGED', theme='streamlit')
+        grid = grid_return["data"]
 
     with col2:
         st.subheader('Calculation and Download Settings')
@@ -38,6 +41,7 @@ def standard_curve():
         calculate_state = st.button(label='Draw Standard Curve Figure')
 
     if calculate_state:
+        data = grid
         x = data['log/unit']
         y = data['Ct']
 
