@@ -31,7 +31,7 @@ def default_expression_data():
 def cq_to_expression(df, control_gene='Actin'):
     target_genes = list(dict.fromkeys(df['Target'].tolist()))
     target_genes.remove(control_gene)
-    st.text(target_genes)
+    # st.text(target_genes)
     df = df[df['Content'].str.contains('Unkn')]
     df = df[['Target', 'Sample', 'Biological Set Name', 'Cq']]
     df.groupby(['Target', 'Sample', 'Biological Set Name']).agg('mean')
@@ -49,9 +49,9 @@ def cq_to_expression(df, control_gene='Actin'):
     cal_df.loc[:, 'Cq SE'] = cal_df['Cq Std'] / (2 * cal_df['Repeat Num'])
     s_target = cal_df.loc[target_genes, 'Cq SE'].to_list()
     s_control = cal_df.loc[control_gene, 'Cq SE'].to_list()
-    st.dataframe(cal_df)
-    st.text(s_target)
-    st.text(s_control)
+    # st.dataframe(cal_df)
+    # st.text(s_target)
+    # st.text(s_control)
     tmp = []
     for a in range(0, len(s_target)):
         tmp.append(math.sqrt(s_target[a] ** 2 + s_control[a] ** 2))
@@ -82,7 +82,8 @@ def cq_to_expression(df, control_gene='Actin'):
                      'Expression SD']]
     return result
 
-def plot_expression(data,divide,output_format):
+
+def plot_expression(data, divide, output_format):
     looplist = reduce(list(data[divide].values))
     ls = ['Target', 'Sample', 'Biological Set Name']
     ls.remove(divide)
@@ -94,13 +95,13 @@ def plot_expression(data,divide,output_format):
     if len(looplist) == 1:
         row = 1
         col = 1
-        wid=400
-        hei=400
+        wid = 400
+        hei = 400
     else:
         row = int(np.ceil(len(looplist) / 2))
         col = 2
-        wid = 400*col
-        hei = 400*row
+        wid = 400 * col
+        hei = 400 * row
     fig = make_subplots(rows=row, cols=col)
 
     pio.templates.default = "simple_white"
@@ -124,17 +125,7 @@ def plot_expression(data,divide,output_format):
     fig.update_layout(barmode='group', width=wid, height=hei)
 
     st.plotly_chart(fig, False)
-
-    st.subheader('Download Figure Above')
-    fn = 'expression.{}'.format(output_format)
-    img = BytesIO()
-    fig.write_image(img, format=output_format)
-
-    btn = st.download_button(
-        label="Download image",
-        data=img,
-        file_name=fn
-    )
+    return fig
 
 
 def cq_calculate():
@@ -162,11 +153,33 @@ def cq_calculate():
     divide = st.sidebar.radio('Default is Target Gene', ['Target', 'Sample', 'Biological Set Name'])
     st.sidebar.markdown('## Available Format:')
     output_format = st.sidebar.radio('SVG Format Recommended', ('svg', 'jpg', 'png', 'pdf'))
-
+    st.subheader('Choose Control Gene to Normalize:')
     control_gene = st.selectbox('Select control gene', ls, index=len(ls) - 1)
     if st.button('Calculate'):
         data = grid
         result_df = cq_to_expression(data, control_gene)
         grid_return = AgGrid(result_df, editable=False, fit_columns_on_grid_load=False, height=250, theme='streamlit')
         output = grid_return["data"]
-        plot_expression(output,divide,output_format)
+        fig=plot_expression(output, divide, output_format)
+
+        st.subheader('Download Result Above')
+        col_fig, col_csv = st.columns([1, 6])
+        with col_fig:
+            fn = 'expression.{}'.format(output_format)
+            img = BytesIO()
+            fig.write_image(img, format=output_format)
+
+            btn = st.download_button(
+                label="Download image",
+                data=img,
+                file_name=fn
+            )
+        with col_csv:
+            csv = BytesIO()
+            output.to_csv(csv,index=False)
+
+            btn_2 = st.download_button(
+                label="Download result table",
+                data=csv,
+                file_name='{}.csv'.format(file.name.split('.')[0])
+            )
