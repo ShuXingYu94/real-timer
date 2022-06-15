@@ -7,6 +7,7 @@ from plotly.graph_objs import Bar
 import streamlit as st
 import plotly.io as pio
 from io import BytesIO
+from st_aggrid import AgGrid
 
 
 @st.cache(allow_output_mutation=True)
@@ -33,9 +34,13 @@ def expression_plot():
     else:
         st.markdown('### Input Data: \n > Press the "Draw" button to get result.')
         data = pd.read_csv(file)
+    grid_return = AgGrid(data, editable=True, fit_columns_on_grid_load=True, height=250,
+                         GridUpdateMode='VALUE_CHANGED', theme='streamlit')
+    grid = grid_return["data"]
+    data=grid
     st.sidebar.markdown('## Draw Figure by:')
     divide = st.sidebar.radio('Default is Target Gene', ['Target', 'Cultivar', 'Treatment'])
-    st.dataframe(data, width=1000)
+    # st.dataframe(data, width=1000)
     st.sidebar.markdown('## Available Format:')
     output_format = st.sidebar.radio('SVG Format Recommended', ('svg', 'jpg', 'png', 'pdf'))
 
