@@ -2,6 +2,7 @@ from PIL import Image
 import streamlit as st
 from calculator import *
 from standard_curve import *
+from cq_calculate import *
 
 
 APP_TITLE = "Realtime PCR Calculator"
@@ -31,12 +32,14 @@ def qPCR_generator_main():
     # Make general page information.
     general_main(icon)
     st.sidebar.markdown('## Available Function')
-    func = st.sidebar.selectbox('Choose one to begin with:',['Standard Curve Figure', 'Expression Figure'])
+    func = st.sidebar.selectbox('Choose one to begin with:',['Standard Curve Figure', 'Figure From Expression','Figure From Cq'])
 
     if func == 'Standard Curve Figure':
         standard_curve()
-    elif func == 'Expression Figure':
-        expression_calculate()
+    elif func == 'Figure From Expression':
+        expression_plot()
+    elif func=='Figure From Cq':
+        cq_calculate()
 
 
 # Run

@@ -20,7 +20,7 @@ def reduce(ls):
     return new_ls
 
 
-def expression_calculate():
+def expression_plot():
     df = default_expression_data().copy()
     st.sidebar.markdown('## Fetch default format file')
     st.sidebar.download_button('Download Sample file', df.to_csv(index=False).encode('utf-8'), 'expression_sample.csv')
