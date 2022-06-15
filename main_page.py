@@ -1,6 +1,6 @@
 from PIL import Image
 import streamlit as st
-from calculator import *
+from plot_expression import *
 from standard_curve import *
 from cq_calculate import *
 

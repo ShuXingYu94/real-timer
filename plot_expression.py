@@ -39,14 +39,14 @@ def expression_plot():
     grid = grid_return["data"]
     data=grid
     st.sidebar.markdown('## Draw Figure by:')
-    divide = st.sidebar.radio('Default is Target Gene', ['Target', 'Cultivar', 'Treatment'])
+    divide = st.sidebar.radio('Default to be Target Gene', ['Target', 'Sample', 'Biological Set Name'])
     # st.dataframe(data, width=1000)
     st.sidebar.markdown('## Available Format:')
     output_format = st.sidebar.radio('SVG Format Recommended', ('svg', 'jpg', 'png', 'pdf'))
 
     if st.button('Draw'):
         looplist = reduce(list(data[divide].values))
-        ls = ['Target', 'Cultivar', 'Treatment']
+        ls = ['Target', 'Sample', 'Biological Set Name']
         ls.remove(divide)
 
         st.subheader("Relative Gene Expression")
