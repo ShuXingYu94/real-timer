@@ -167,7 +167,7 @@ def cq_calculate():
         st.subheader('Download Result Above')
         col_fig, col_csv = st.columns([1, 6])
         with col_fig:
-            fn = 'expression.{}'.format(output_format)
+            fn = '{0}.{1}'.format(name,output_format)
             img = BytesIO()
             fig.write_image(img, format=output_format)
 
