@@ -139,11 +139,13 @@ def cq_calculate():
     st.markdown('### Input Data: \n > Press the "Calculate" button to get result.')
     if not file:
         data = df
+        name='Test_data'
     else:
         if 'csv' in file.name:
             data = pd.read_csv(file)
         else:
             data = pd.read_excel(file)
+        name=file.name.split('.')[0]
     grid_return = AgGrid(data, editable=True, fit_columns_on_grid_load=True, height=250,
                          GridUpdateMode='VALUE_CHANGED', theme='streamlit')
     grid = grid_return["data"]
@@ -181,5 +183,5 @@ def cq_calculate():
             btn_2 = st.download_button(
                 label="Download result table",
                 data=csv,
-                file_name='{}.csv'.format(file.name.split('.')[0])
+                file_name=name+'.csv'
             )
