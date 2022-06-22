@@ -165,7 +165,7 @@ def cq_calculate():
         fig=plot_expression(output, divide, output_format)
 
         st.subheader('Download Result Above')
-        col_fig, col_csv = st.columns([1, 6])
+        col_fig, col_csv = st.columns([1, 5])
         with col_fig:
             fn = '{0}.{1}'.format(name,output_format)
             img = BytesIO()
