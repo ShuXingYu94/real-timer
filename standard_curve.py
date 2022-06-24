@@ -28,7 +28,7 @@ def standard_curve():
             data = df
         else:
             data = pd.read_csv(file)
-        grid_return = AgGrid(data, editable=True, fit_columns_on_grid_load=True, height=data.shape[0]*30,
+        grid_return = AgGrid(data, editable=True, fit_columns_on_grid_load=True, height=data.shape[0]*30+20,
                              GridUpdateMode='VALUE_CHANGED', theme='streamlit')
         grid = grid_return["data"]
 
