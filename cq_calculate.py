@@ -146,7 +146,7 @@ def cq_calculate():
         else:
             data = pd.read_excel(file)
         name=file.name.split('.')[0]
-    grid_return = AgGrid(data, editable=True, fit_columns_on_grid_load=True, height=data.shape[0]*30+20,
+    grid_return = AgGrid(data, editable=True, fit_columns_on_grid_load=True, height=data.shape[0]*28+40,
                          GridUpdateMode='VALUE_CHANGED', theme='streamlit')
     grid = grid_return["data"]
     ls = get_gene_list(grid)
@@ -160,7 +160,7 @@ def cq_calculate():
     if st.button('Calculate'):
         data = grid
         result_df = cq_to_expression(data, control_gene)
-        grid_return = AgGrid(result_df, editable=False, fit_columns_on_grid_load=False, height=result_df.shape[0]*30+20, theme='streamlit')
+        grid_return = AgGrid(result_df, editable=False, fit_columns_on_grid_load=False, height=result_df.shape[0]*28+40, theme='streamlit')
         output = grid_return["data"]
         fig=plot_expression(output, divide, output_format)
 
