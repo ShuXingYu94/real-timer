@@ -34,10 +34,10 @@ def expression_plot():
     else:
         st.markdown('### Input Data: \n > Press the "Draw" button to get result.')
         data = pd.read_csv(file)
-    grid_return = AgGrid(data, editable=True, fit_columns_on_grid_load=True, height=data.shape[0]*28+40,
+    grid_return = AgGrid(data, editable=True, fit_columns_on_grid_load=True, height=data.shape[0] * 28 + 40,
                          GridUpdateMode='VALUE_CHANGED', theme='streamlit')
     grid = grid_return["data"]
-    data=grid
+    data = grid
     st.sidebar.markdown('## Draw Figure by:')
     divide = st.sidebar.radio('Default to be Target Gene', ['Target', 'Sample', 'Biological Set Name'])
     # st.dataframe(data, width=1000)
@@ -46,8 +46,13 @@ def expression_plot():
 
     if st.button('Draw'):
         looplist = reduce(list(data[divide].values))
+        # st.text(looplist)
         ls = ['Target', 'Sample', 'Biological Set Name']
         ls.remove(divide)
+
+        for a in ls:
+            if a not in data.columns:
+                ls.remove(a)
 
         st.subheader("Relative Gene Expression")
         columns = ['Expression']
@@ -57,16 +62,19 @@ def expression_plot():
         if len(looplist) == 1:
             row = 1
             col = 1
-            wid=400
-            hei=400
+            wid = 400
+            hei = 400
         else:
             row = int(np.ceil(len(looplist) / 2))
             col = 2
-            wid = 400*col
-            hei = 400*row
+            wid = 400 * col
+            hei = 400 * row
         fig = make_subplots(rows=row, cols=col)
 
         pio.templates.default = "simple_white"
+
+        st.dataframe(data)
+        st.text(len(ls))
 
         for target in looplist:
             count += 1
@@ -79,10 +87,20 @@ def expression_plot():
             colors = {c: next(palette) for c in looplist}
 
             for cols in columns:
-                fig.add_trace(Bar(x=[tmp[ls[0]], tmp[ls[1]]], y=tmp[cols], name=target, legendgroup=cols,
-                                  marker_color=colors[target], showlegend=True,
-                                  error_y={'array': tmp[error_column].to_list(), 'type': 'data', 'visible': True}),
-                              row=row_count, col=col_count)
+                # st.text([tmp[ls[0]], tmp[ls[1]]])
+                # st.text(tmp[cols])
+                # st.text('Succeed')
+                # st.text('Succeed')
+                if len(ls)>1:
+                    fig.add_trace(Bar(x=[tmp[ls[0]], tmp[ls[1]]], y=tmp[cols], name=target, legendgroup=cols,
+                                      marker_color=colors[target], showlegend=True,
+                                      error_y={'array': tmp[error_column].to_list(), 'type': 'data', 'visible': True}),
+                                  row=row_count, col=col_count)
+                else:
+                    fig.add_trace(Bar(x=tmp[ls[0]], y=tmp[cols], name=target, legendgroup=cols,
+                                      marker_color=colors[target], showlegend=True,
+                                      error_y={'array': tmp[error_column].to_list(), 'type': 'data', 'visible': True}),
+                                  row=row_count, col=col_count)
 
         fig.update_layout(barmode='group', width=wid, height=hei)
 
