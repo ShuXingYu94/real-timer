@@ -31,9 +31,11 @@ def expression_plot():
     if not file:
         st.markdown('### Sample Data: \n > Press the "Draw" button to get sample result.')
         data = df
+        name = 'Test_data'
     else:
         st.markdown('### Input Data: \n > Press the "Draw" button to get result.')
         data = pd.read_csv(file)
+        name = file.name.split('.')[0]
     grid_return = AgGrid(data, editable=True, fit_columns_on_grid_load=True, height=data.shape[0] * 28 + 40,
                          GridUpdateMode='VALUE_CHANGED', theme='streamlit')
     grid = grid_return["data"]
@@ -67,8 +69,8 @@ def expression_plot():
         else:
             row = int(np.ceil(len(looplist) / 2))
             col = 2
-            wid = 400 * col
-            hei = 400 * row
+            wid = 500 * col
+            hei = 500 * row
         fig = make_subplots(rows=row, cols=col)
 
         pio.templates.default = "simple_white"
@@ -91,7 +93,7 @@ def expression_plot():
                 # st.text(tmp[cols])
                 # st.text('Succeed')
                 # st.text('Succeed')
-                if len(ls)>1:
+                if len(ls)>=2:
                     fig.add_trace(Bar(x=[tmp[ls[0]], tmp[ls[1]]], y=tmp[cols], name=target, legendgroup=cols,
                                       marker_color=colors[target], showlegend=True,
                                       error_y={'array': tmp[error_column].to_list(), 'type': 'data', 'visible': True}),
@@ -107,7 +109,7 @@ def expression_plot():
         st.plotly_chart(fig, False)
 
         st.subheader('Download Figure Above')
-        fn = 'expression.{}'.format(output_format)
+        fn = '{0}.{1}'.format(name,output_format)
         img = BytesIO()
         fig.write_image(img, format=output_format)
 
