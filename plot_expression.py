@@ -73,8 +73,8 @@ def expression_plot():
 
         pio.templates.default = "simple_white"
 
-        st.dataframe(data)
-        st.text(len(ls))
+        # st.dataframe(data)
+        # st.text(len(ls))
 
         for target in looplist:
             count += 1
