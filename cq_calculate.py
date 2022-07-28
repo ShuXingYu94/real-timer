@@ -49,15 +49,22 @@ def cq_to_expression(df, control_gene='Actin'):
     cal_df.loc[:, 'Cq SE'] = cal_df['Cq Std'] / (2 * cal_df['Repeat Num'])
     s_target = cal_df.loc[target_genes, 'Cq SE'].to_list()
     s_control = cal_df.loc[control_gene, 'Cq SE'].to_list()
+
     # st.dataframe(cal_df)
     # st.text(s_target)
+    # st.text(len(s_target))
     # st.text(s_control)
+    # st.text(len(s_control))
+
     tmp = []
     for a in range(0, len(s_target)):
-        tmp.append(math.sqrt(s_target[a] ** 2 + s_control[a] ** 2))
+        # st.text(a)
+        tmp.append(math.sqrt(s_target[a] ** 2 + s_control[a%4] ** 2))
+    # st.text('Success')
     cal_df.loc[target_genes, 'Cq SD'] = tmp
     tmp = cal_df.reset_index()
 
+    # st.text('Success')
     result = tmp[tmp['Target'] != control_gene].copy()
 
     # result=result[result['dCq'].notnull()].copy()
@@ -70,6 +77,7 @@ def cq_to_expression(df, control_gene='Actin'):
     ls_sd = result['Cq SD'].to_list()
     ls_exp = []
     ls_esd = []
+    # st.text('Success')
     for a in range(len(ls_cq)):
         cq = ls_cq[a]
         sd = ls_sd[a]
@@ -80,6 +88,7 @@ def cq_to_expression(df, control_gene='Actin'):
     result = result[['Target', 'Sample', 'Biological Set Name', 'Cq Mean',
                      'Repeat Num', 'dCq', 'Cq SD', 'ddCq', 'Expression',
                      'Expression SD']]
+    # st.text('Success')
     return result
 
 
