@@ -87,12 +87,14 @@ def expression_plot():
 
             palette = cycle(px.colors.qualitative.Alphabet)
             colors = {c: next(palette) for c in looplist}
+            # st.text(ls)
+            # st.text('Succeed')
 
             for cols in columns:
                 # st.text([tmp[ls[0]], tmp[ls[1]]])
                 # st.text(tmp[cols])
                 # st.text('Succeed')
-                # st.text('Succeed')
+
                 if len(ls)>=2:
                     fig.add_trace(Bar(x=[tmp[ls[0]], tmp[ls[1]]], y=tmp[cols], name=target, legendgroup=cols,
                                       marker_color=colors[target], showlegend=True,

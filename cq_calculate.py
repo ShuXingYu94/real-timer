@@ -73,32 +73,46 @@ def cq_to_expression(df, control_gene='Actin'):
     m = result['dCq'].agg('max')
     ls = [a - m for a in ls]
     result.loc[:, 'ddCq'] = ls
-    ls_cq = result['ddCq'].to_list()
+    ls_cq = result['dCq'].to_list()
     ls_sd = result['Cq SD'].to_list()
+    ls_cq_scaled = result['ddCq'].to_list()
+    ls_sd_scaled = result['Cq SD'].to_list()
     ls_exp = []
     ls_esd = []
+    ls_exp_scaled=[]
+    ls_esd_scaled=[]
     # st.text('Success')
     for a in range(len(ls_cq)):
         cq = ls_cq[a]
         sd = ls_sd[a]
         ls_exp.append(math.pow(2, -cq))
         ls_esd.append(math.pow(2, -cq) - math.pow(2, -cq - sd))
+        cq_scaled = ls_cq_scaled[a]
+        sd_scaled = ls_sd_scaled[a]
+        ls_exp_scaled.append(math.pow(2, -cq_scaled))
+        ls_esd_scaled.append(math.pow(2, -cq_scaled) - math.pow(2, -cq_scaled - sd_scaled))
     result.loc[:, 'Expression'] = ls_exp
     result.loc[:, 'Expression SD'] = ls_esd
+    result.loc[:, 'Scaled Expression'] = ls_exp_scaled
+    result.loc[:, 'Scaled Expression SD'] = ls_esd_scaled
     result = result[['Target', 'Sample', 'Biological Set Name', 'Cq Mean',
                      'Repeat Num', 'dCq', 'Cq SD', 'ddCq', 'Expression',
-                     'Expression SD']]
+                     'Expression SD','Scaled Expression','Scaled Expression SD']]
     # st.text('Success')
     return result
 
 
-def plot_expression(data, divide, output_format):
+def plot_expression(data, divide, scaling):
     looplist = reduce(list(data[divide].values))
     ls = ['Target', 'Sample', 'Biological Set Name']
     ls.remove(divide)
     st.subheader("Relative Gene Expression")
-    columns = ['Expression']
-    error_column = 'Expression SD'
+    if scaling:
+        columns = ['Expression']
+        error_column = 'Expression SD'
+    else:
+        columns = ['Scaled Expression']
+        error_column = 'Scaled Expression SD'
     count = 0
 
     if len(looplist) == 1:
@@ -162,6 +176,8 @@ def cq_calculate():
 
     st.sidebar.markdown('## Draw Figure by:')
     divide = st.sidebar.radio('Default is Target Gene', ['Target', 'Sample', 'Biological Set Name'])
+    st.sidebar.markdown('## Whether to scale expression data:')
+    scaling = st.sidebar.checkbox('Unscale Expression Data')
     st.sidebar.markdown('## Available Format:')
     output_format = st.sidebar.radio('SVG Format Recommended', ('svg', 'jpg', 'png', 'pdf'))
     st.subheader('Choose Control Gene to Normalize:')
@@ -171,7 +187,7 @@ def cq_calculate():
         result_df = cq_to_expression(data, control_gene)
         grid_return = AgGrid(result_df, editable=False, fit_columns_on_grid_load=False, height=result_df.shape[0]*28+40, theme='streamlit')
         output = grid_return["data"]
-        fig=plot_expression(output, divide, output_format)
+        fig=plot_expression(output, divide, scaling)
 
         st.subheader('Download Result Above')
         col_fig, col_csv = st.columns([1, 5])
