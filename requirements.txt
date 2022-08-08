@@ -8,3 +8,4 @@ scikit-learn~=1.1.1
 matplotlib~=3.5.2
 streamlit-aggrid~=0.2.3.post2
 kaleido~=0.2.1
+openpyxl
